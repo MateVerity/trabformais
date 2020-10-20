@@ -1,7 +1,6 @@
 package org.trabalho.finais;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Automata {
     String Nome; //Nome dado ao autômato
@@ -26,11 +25,11 @@ public class Automata {
     public Automata(String nome,String estadoInicial)
     {
         Nome = nome;
-        Estados =  new ArrayList<String>();
-        Simbolo = new ArrayList<String>();
+        Estados = new ArrayList<>();
+        Simbolo = new ArrayList<>();
         EstadoInicial = estadoInicial;
-        EstadoFinal = new ArrayList<String>();
-        Programa = new ArrayList<Programa>();
+        EstadoFinal = new ArrayList<>();
+        Programa = new ArrayList<>();
     }
 
 
@@ -88,10 +87,8 @@ public class Automata {
     {
         System.out.println("Nome: " + this.Nome +"\nLista de Estados: " +  this.Estados + "\nAlfabeto: " + this.Simbolo + "\nEstado Inicial: " + this.EstadoInicial
         + "\nEstados Finais: " + this.EstadoFinal);
-        Iterator<Programa> Teste = this.Programa.iterator();
-        while(Teste.hasNext())
-        {
-            Teste.next().printaPrograma();
+        for (org.trabalho.finais.Programa programa : this.Programa) {
+            programa.printaPrograma();
         }
 
     }

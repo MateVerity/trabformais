@@ -1,16 +1,11 @@
 package org.trabalho.finais;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,12 +42,12 @@ public class Operacoes {
         int i = 0;
         Automata AFD = new Automata(null, null); //Cria autômato vazio
 
-        BufferedReader automataReader = new BufferedReader(new InputStreamReader(new FileInputStream(AutomataFile), "UTF-8"));
+        BufferedReader automataReader = new BufferedReader(new InputStreamReader(new FileInputStream(AutomataFile), StandardCharsets.UTF_8));
         String linha;
         linha = automataReader.readLine(); //Lê a primeira linha do autômato
             String[] Splitter = linha.split("="); //Divide a linha, onde o nome do autômato será a primeira string, e o resto a segunda
             AFD.Nome = Splitter[0]; //Recebe o nome do autômato
-            Pattern p = Pattern.compile("(?<=\\{)([^\\}]+)(?=\\})"); //Regex para extrair os estados, alfabeto e estados finais. Eles estão entre { }.
+            Pattern p = Pattern.compile("(?<=\\{)([^}]+)(?=})"); //Regex para extrair os estados, alfabeto e estados finais. Eles estão entre { }.
             Matcher m = p.matcher(Splitter[1]); //
             while(m.find()) {  //Será dividido 3 vezes, visto que são 3 conjuntos definidos no arquivo.
 
@@ -78,8 +73,8 @@ public class Operacoes {
             Splitter = Splitter[1].split(",Prog,"); //Divide a linha de novo
             Splitter = Splitter[1].split(",\\{"); //E de novo, dessa vez Splitter[0] terá o estado inicial.
             AFD.EstadoInicial = Splitter[0];  //Assim, nosso autômato já está quase completo. Apenas falta o Programa.
-        linha = automataReader.readLine(); //Lê a segunda linha do autômato. Inicia a leitura do programa.
-        p = Pattern.compile("(?<=\\()([^\\)]+)(?=\\))"); //Agrupa o conjunto (estado,alfabeto) do programa
+        automataReader.readLine(); //Lê a segunda linha do autômato. Inicia a leitura do programa.
+        p = Pattern.compile("(?<=\\()([^)]+)(?=\\))"); //Agrupa o conjunto (estado,alfabeto) do programa
 
         while((linha = automataReader.readLine()) != null)
         {

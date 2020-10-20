@@ -8,6 +8,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://C:/Developer Tools/JavaFX SDK/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/Developer Tools/JavaFX SDK/lib" />
+        </SOURCES>
+        <jarDirectory url="file://C:/Developer Tools/JavaFX SDK/lib" recursive="false" />
+        <jarDirectory url="file://C:/Developer Tools/JavaFX SDK/lib" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
