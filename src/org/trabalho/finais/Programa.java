@@ -11,6 +11,15 @@ public class Programa { //Descreve a função programa aplicada a um estado qi e
         this.estadoDestino = estadoDestino;
     }
 
+    public Programa()
+    {
+        this.estado = null;
+        this.simbolo = null;
+        this.estadoDestino = null;
+    }
+
+
+
     public String getEstado() {
         return estado;
     }
@@ -34,4 +43,12 @@ public class Programa { //Descreve a função programa aplicada a um estado qi e
     public void setEstadoDestino(String estadoDestino) {
         this.estadoDestino = estadoDestino;
     }
+
+    //DEBUG
+    public void printaPrograma()
+    {
+        System.out.println("("+this.estado+","+this.simbolo+")"+"="+this.estadoDestino);
+    }
+
+
 }

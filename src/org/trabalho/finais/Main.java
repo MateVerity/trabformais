@@ -20,7 +20,8 @@ public class Main extends Application {
         primaryStage.show();
         //Inicio das operações
         File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
-        Automata PREULA = Operacoes.AutomataReader(AutomataFile);
+        Automata AFD = Operacoes.AutomataReader(AutomataFile);
+        AFD.printaAutomato();
 
 
 
