@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Interface {
 
-    public static Button
+
 
 
 }
