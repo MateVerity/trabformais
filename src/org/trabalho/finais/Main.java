@@ -13,17 +13,25 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{  //Código de inicialização padrão do programa
-        File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
-        Automata AFD = Operacoes.AutomataReader(AutomataFile);
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+
+        //File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
+        //Automata AFD = Operacoes.AutomataReader(AutomataFile);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("Trabalho Final");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.getIcons().add(new Image("appicon.png"));
+        Controller controller = loader.getController();
         primaryStage.show();
+        controller.initialize(primaryStage);
+
+
 
 
 
         //Inicio das operações
+
 
 
 
