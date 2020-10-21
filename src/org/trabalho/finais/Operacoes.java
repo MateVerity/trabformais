@@ -91,20 +91,69 @@ public class Operacoes {
     }
 
 
-    public static String CheckWord(String palavra, Gramatica gramatica) {
+    public static String CheckWord(String palavra, Gramatica gramatica, String Estado) {
 
-        String derivacoes; //Conterá as derivações caso a palavra pertença
+        StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
+
+
+
+
 
         if(palavra.length()  != 0)
         {
             Character w = palavra.charAt(0);
-            
-            CheckWord(palavra.substring(1), gramatica);
+
+            if(!gramatica.T.contains(w.toString()))
+            {
+                derivacoes.append(w).append(" não pertence ao conjunto T de G");
+                return derivacoes.toString();
+            }
+
+
+
+            for(GProgram Deriv : gramatica.P)
+            {
+                if(Deriv.estadoPartida.equals(Estado))
+                {
+                    for(Transicoes transicao : Deriv.transicoesDestino)
+                    {
+                        if(transicao.simbolo.equals((w.toString())))
+                        {
+                            derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("\n");
+                            return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado);
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+        if(palavra.length() == 0)
+        {
+            for(GProgram Deriv : gramatica.P)
+                if(Deriv.estadoPartida.equals(Estado))
+                    for(Transicoes transicao : Deriv.transicoesDestino)
+                    {
+                        if(transicao.simbolo.equals("ε"))
+                        {
+                            derivacoes.append("\nPalavra w pertence à GERA(G).");
+                            return derivacoes.toString();
+                        }
+
+                    }
+
+            derivacoes.delete(0,derivacoes.length());
+            derivacoes.append("\nPalavra w não pertence à GERA(G).");
+            return derivacoes.toString();
 
         }
 
 
-        return palavra;
+        derivacoes.delete(0,derivacoes.length());
+        derivacoes.append("\nPalavra w não pertence à GERA(G).");
+        return derivacoes.toString();
     }
 
 }

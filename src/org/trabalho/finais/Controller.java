@@ -25,7 +25,8 @@ public class Controller {
     @FXML
     private TextField campotexto;
 
-
+    @FXML
+    private TextArea campopalavra;
 
 
 
@@ -41,10 +42,10 @@ public class Controller {
     }
 
 
-    public String checkWord()
+    public void checkWord()
     {
 
-       return Operacoes.CheckWord(campotexto.getText(), Gramatica.self()); //Retorna a palavra escrita pelo usuário
+        campopalavra.setText(Operacoes.CheckWord(campotexto.getText(), Gramatica.self(), Gramatica.self().S)); //Retorna a palavra escrita pelo usuário
 
     }
 
