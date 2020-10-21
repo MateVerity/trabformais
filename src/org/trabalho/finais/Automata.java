@@ -11,6 +11,9 @@ public class Automata {
     ArrayList<String> EstadoFinal; //Representa o estado final do automato
     ArrayList<Programa> Programa;
 
+    private static Automata self = new Automata(null,null);
+    public static Automata self(){return self;}
+
 
     //Construtor
     public Automata(String nome, ArrayList<String> estados, ArrayList<String> simbolo, String estadoInicial, ArrayList<String> estadoFinal, ArrayList<org.trabalho.finais.Programa> programa) {

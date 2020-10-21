@@ -46,7 +46,7 @@ public class Operacoes {
         String linha;
         linha = automataReader.readLine(); //Lê a primeira linha do autômato
         String[] Splitter = linha.split("="); //Divide a linha, onde o nome do autômato será a primeira string, e o resto a segunda
-        AFD.Nome = Splitter[0]; //Recebe o nome do autômato
+        Automata.self().Nome = Splitter[0]; //Recebe o nome do autômato
         Pattern p = Pattern.compile("(?<=\\{)([^}]+)(?=})"); //Regex para extrair os estados, alfabeto e estados finais. Eles estão entre { }.
         Matcher m = p.matcher(Splitter[1]); //
         while (m.find()) {  //Será dividido 3 vezes, visto que são 3 conjuntos definidos no arquivo.
@@ -55,15 +55,15 @@ public class Operacoes {
             int k = 0;
             while (k < Alocador.length) {
                 if (i == 0) { //Na primeira vez serão os estados
-                    AFD.Estados.add(Alocador[k]);
+                    Automata.self().Estados.add(Alocador[k]);
                     k++;
                 }
                 if (i == 1) { //Na segunda, o alfabeto
-                    AFD.Simbolo.add(Alocador[k]);
+                    Automata.self().Simbolo.add(Alocador[k]);
                     k++;
                 }
                 if (i == 2) { //E por ultimo os estados finais
-                    AFD.EstadoFinal.add(Alocador[k]);
+                    Automata.self().EstadoFinal.add(Alocador[k]);
                     k++;
                 }
             }
@@ -71,7 +71,7 @@ public class Operacoes {
         }
         Splitter = Splitter[1].split(",Prog,"); //Divide a linha de novo
         Splitter = Splitter[1].split(",\\{"); //E de novo, dessa vez Splitter[0] terá o estado inicial.
-        AFD.EstadoInicial = Splitter[0];  //Assim, nosso autômato já está quase completo. Apenas falta o Programa.
+        Automata.self().EstadoInicial = Splitter[0];  //Assim, nosso autômato já está quase completo. Apenas falta o Programa.
         automataReader.readLine(); //Lê a segunda linha do autômato. Inicia a leitura do programa.
         p = Pattern.compile("(?<=\\()([^)]+)(?=\\))"); //Agrupa o conjunto (estado,alfabeto) do programa
 
@@ -84,16 +84,26 @@ public class Operacoes {
             tempProg.simbolo = Alocador[1];
             Splitter = linha.split("\\)=");
             tempProg.estadoDestino = Splitter[1];
-            AFD.Programa.add(tempProg); //Adiciona a linha do programa no automato principal
+            Automata.self().Programa.add(tempProg); //Adiciona a linha do programa no automato principal
 
         }
         return AFD; //Retorna o automato completo
     }
 
 
-    public static String CheckWord(String palavra) {
+    public static String CheckWord(String palavra, Gramatica gramatica) {
 
-        System.out.println(palavra);
+        String derivacoes; //Conterá as derivações caso a palavra pertença
+
+        if(palavra.length()  != 0)
+        {
+            Character w = palavra.charAt(0);
+            
+            CheckWord(palavra.substring(1), gramatica);
+
+        }
+
+
         return palavra;
     }
 

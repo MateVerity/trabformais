@@ -7,13 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
+
+
+
 public class Main extends Application {
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{  //Código de inicialização padrão do programa
 
-        //File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
-        //Automata AFD = Operacoes.AutomataReader(AutomataFile);
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         Parent root = loader.load();
@@ -22,8 +27,10 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image("appicon.png"));
         Controller controller = loader.getController();
         primaryStage.show();
-        controller.initialize(primaryStage);
-
+        File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
+        Operacoes.AutomataReader(AutomataFile);
+        Gramatica.AFDtoGrammar(Automata.self());
+        controller.populateTextAreas(Automata.self(), Gramatica.self());
 
 
 

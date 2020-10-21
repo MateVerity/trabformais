@@ -1,14 +1,15 @@
 package org.trabalho.finais;
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-
-//O objetivo dessa classe é apenas controlar a interface do programa.
 
 public class Controller {
 
@@ -21,20 +22,31 @@ public class Controller {
     @FXML
     private AnchorPane ap;
 
+    @FXML
+    private TextField campotexto;
 
 
 
-    public void initialize(Stage primaryStage) throws IOException { //Inicializa o controlador, lendo o autômato, montando a gramática e mostrando na tela.
 
 
-        File AFD_File = Operacoes.GetAutomataFile(primaryStage);
-        Automata AFD = Operacoes.AutomataReader(AFD_File);
-        automata.setText(AFD.mostraAutomato());
-        Gramatica Grammar = Gramatica.AFDtoGrammar(AFD);
-        grammar.setText(Grammar.printGrammar());
+    public void initialize()
+    {
 
     }
 
+    public void populateTextAreas(Automata AFD, Gramatica Grammar)
+    {
+        automata.setText(AFD.mostraAutomato());
+        grammar.setText(Grammar.printGrammar());
+    }
+
+
+    public String checkWord()
+    {
+
+       return Operacoes.CheckWord(campotexto.getText(), Gramatica.self()); //Retorna a palavra escrita pelo usuário
+
+    }
 
 
 

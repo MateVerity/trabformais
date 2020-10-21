@@ -15,6 +15,8 @@ public class Gramatica {
     ArrayList<GProgram> P;  //Conjunto de Produções
           //Se é final ou não
 
+    private static Gramatica self = new Gramatica();
+    public static Gramatica self(){return self;}
 
     public Gramatica(ArrayList<String> v, ArrayList<String> t, String s, ArrayList<GProgram> p) {
         V = v;
@@ -38,11 +40,11 @@ public class Gramatica {
         ArrayList<GProgram> Producoes = new ArrayList<>();
 
 
-        tempGrammar.S = AFD.getEstadoInicial();
-        tempGrammar.V = AFD.getEstados();
-        tempGrammar.T = AFD.getSimbolo();
+        Gramatica.self().S = AFD.getEstadoInicial();
+        Gramatica.self().V = AFD.getEstados();
+        Gramatica.self().T = AFD.getSimbolo();
 
-        for(String Estado : tempGrammar.V) //Para cada estado da gramática
+        for(String Estado : Gramatica.self().V) //Para cada estado da gramática
         {
             GProgram tempGProgram = new GProgram();
 
@@ -63,11 +65,11 @@ public class Gramatica {
 
             }
 
-            tempGrammar.P.add(tempGProgram);
+            Gramatica.self().P.add(tempGProgram);
 
         }
 
-        for(String Estado : tempGrammar.V)  //Cria uma regra de produção terminal para cada estado terminal do AFD
+        for(String Estado : Gramatica.self().V)  //Cria uma regra de produção terminal para cada estado terminal do AFD
         {
             GProgram tempGProgram = new GProgram();
             tempGProgram.estadoPartida = Estado;
@@ -78,7 +80,7 @@ public class Gramatica {
                 tempTransicao.estado = "";
                 tempTransicao.simbolo = "ε";
                 tempGProgram.transicoesDestino.add(tempTransicao);
-                tempGrammar.P.add(tempGProgram);
+                Gramatica.self().P.add(tempGProgram);
 
             }
 
@@ -89,7 +91,7 @@ public class Gramatica {
 
 
 
-        return tempGrammar;
+        return Gramatica.self();
     }
 
 
