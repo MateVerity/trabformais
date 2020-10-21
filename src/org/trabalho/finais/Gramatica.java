@@ -1,7 +1,6 @@
 package org.trabalho.finais;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Gramatica {
 
@@ -14,6 +13,7 @@ public class Gramatica {
     ArrayList<String> T; //Lista de Símbolos
     String S;           //Estado inicial não-terminal
     ArrayList<GProgram> P;  //Conjunto de Produções
+          //Se é final ou não
 
 
     public Gramatica(ArrayList<String> v, ArrayList<String> t, String s, ArrayList<GProgram> p) {
@@ -23,7 +23,7 @@ public class Gramatica {
         P = p;
     }
 
-    public Gramatica()
+    public Gramatica() //Construtor de gramática vazia
     {
         this.V = new ArrayList<>() ;
         this.T = new ArrayList<>();
@@ -32,7 +32,7 @@ public class Gramatica {
     }
 
 
-    public static Gramatica AFDtoGrammar(Automata AFD)
+    public static Gramatica AFDtoGrammar(Automata AFD)  //Converte o AFD em Gramática Regular
     {
         Gramatica tempGrammar = new Gramatica();
         ArrayList<GProgram> Producoes = new ArrayList<>();
@@ -42,53 +42,49 @@ public class Gramatica {
         tempGrammar.V = AFD.getEstados();
         tempGrammar.T = AFD.getSimbolo();
 
-        Iterator<Programa> iterator = AFD.Programa.iterator();
-        while(iterator.hasNext())
+        for(String Estado : tempGrammar.V) //Para cada estado da gramática
         {
             GProgram tempGProgram = new GProgram();
-            tempGProgram.estadoPartida = iterator.next().estado;
+
+            tempGProgram.estadoPartida = Estado;
 
 
-
-            Iterator<Programa> iterator2 = AFD.Programa.iterator();
-
-            while(iterator2.hasNext()) {
-                Programa temp = iterator2.next();
-                if(temp.estado.equals(tempGProgram.estadoPartida)) {
-                    Transiçoes tempTransicao = new Transiçoes();
-                    tempTransicao.simbolo = temp.simbolo;
-                    tempTransicao.estado = temp.estadoDestino;
+            for(Programa P : AFD.Programa) //Cria uma regra de produção
+            {
+                if(P.estado.equals(Estado))
+                {
+                    Transicoes tempTransicao = new Transicoes();
+                    tempTransicao.estado = P.estadoDestino;
+                    tempTransicao.simbolo = P.simbolo;
                     tempGProgram.transicoesDestino.add(tempTransicao);
 
-
                 }
+
+
             }
 
             tempGrammar.P.add(tempGProgram);
 
-
         }
 
-        iterator = AFD.Programa.iterator();
-        while(iterator.hasNext()) {
+        for(String Estado : tempGrammar.V)  //Cria uma regra de produção terminal para cada estado terminal do AFD
+        {
             GProgram tempGProgram = new GProgram();
-            tempGProgram.estadoPartida = iterator.next().estado;
-            if (AFD.EstadoFinal.contains(tempGProgram.estadoPartida)) {
-                Transiçoes tempTransicao = new Transiçoes();
+            tempGProgram.estadoPartida = Estado;
+
+            if(AFD.EstadoFinal.contains(Estado))
+            {
+                Transicoes tempTransicao = new Transicoes();
                 tempTransicao.estado = "";
-                tempTransicao.simbolo = "λ";
+                tempTransicao.simbolo = "ε";
                 tempGProgram.transicoesDestino.add(tempTransicao);
-
-                if(!tempGrammar.P.forEach().estadoPartida.contains(tempGProgram.estadoPartida))
-                {
-                    tempGrammar.P.add(tempGProgram);
-                    System.out.println(tempGProgram.estadoPartida + tempGProgram.transicoesDestino);
-                }
-
+                tempGrammar.P.add(tempGProgram);
 
             }
 
+
         }
+
 
 
 
@@ -97,27 +93,56 @@ public class Gramatica {
     }
 
 
-    public String printGrammar()
+    public String printGrammar() //Cria uma string contendo a gramática, serve para printar na tela
     {
-        String grammarString = null;
+        StringBuilder grammarString;
 
-        grammarString = "\nV :" + this.V + "\nT :" + this.T + "\nS :" + this.S;
-        Iterator<GProgram> it = P.iterator();
-        while(it.hasNext())
-        {
-            GProgram temp = it.next();
-            grammarString = grammarString + "\n"+temp.estadoPartida + "->";
-            Iterator<Transiçoes> ttemp = temp.transicoesDestino.iterator();
-            while(ttemp.hasNext()) {
-                Transiçoes tttemp = ttemp.next();
-                grammarString = grammarString + tttemp.simbolo+" " + tttemp.estado+ " | ";
+        grammarString = new StringBuilder("V :" + this.V + "\nT :" + this.T + "\nS :" + this.S);
+        for (GProgram temp : P) {
+            grammarString.append("\n").append(temp.estadoPartida).append("->");
+            for (Transicoes tttemp : temp.transicoesDestino) {
+                if (tttemp.simbolo.equals("ε"))
+                    grammarString.append(tttemp.simbolo);
+                else
+                    grammarString.append(tttemp.simbolo).append(" ").append(tttemp.estado).append(" | ");
             }
         }
 
-        return grammarString;
+        return grammarString.toString();
 
     }
 
+    public ArrayList<String> getV() {
+        return V;
+    }
+
+    public void setV(ArrayList<String> v) {
+        V = v;
+    }
+
+    public ArrayList<String> getT() {
+        return T;
+    }
+
+    public void setT(ArrayList<String> t) {
+        T = t;
+    }
+
+    public String getS() {
+        return S;
+    }
+
+    public void setS(String s) {
+        S = s;
+    }
+
+    public ArrayList<GProgram> getP() {
+        return P;
+    }
+
+    public void setP(ArrayList<GProgram> p) {
+        P = p;
+    }
 }
 
 

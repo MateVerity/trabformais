@@ -1,6 +1,6 @@
 package org.trabalho.finais;
 
-public class Transiçoes {
+public class Transicoes {
 
     String simbolo;
     String estado;
@@ -9,13 +9,13 @@ public class Transiçoes {
 
 
 
-    public Transiçoes() //Construtor para um estado final
+    public Transicoes() //Construtor para um estado final
     {
         this.simbolo = null;
         this.estado = null;
     }
 
-    public Transiçoes(String simbolo, String estado) {
+    public Transicoes(String simbolo, String estado) {
         this.simbolo = simbolo;
         this.estado = estado;
     }

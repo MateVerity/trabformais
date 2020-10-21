@@ -6,9 +6,9 @@ public class GProgram {
     //Programa da gramática
 
     String estadoPartida;
-    ArrayList<Transiçoes> transicoesDestino;
+    ArrayList<Transicoes> transicoesDestino;
 
-    public GProgram(String estadoPartida, ArrayList<Transiçoes> transicoesDestino) {
+    public GProgram(String estadoPartida, ArrayList<Transicoes> transicoesDestino) {
         this.estadoPartida = estadoPartida;
         this.transicoesDestino = transicoesDestino;
     }

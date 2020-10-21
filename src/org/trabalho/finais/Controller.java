@@ -1,7 +1,6 @@
 package org.trabalho.finais;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -25,7 +24,7 @@ public class Controller {
 
 
 
-    public void initialize(Stage primaryStage) throws IOException { //Inicializa o controlador, lendo o autômato e printando na tela.
+    public void initialize(Stage primaryStage) throws IOException { //Inicializa o controlador, lendo o autômato, montando a gramática e mostrando na tela.
 
 
         File AFD_File = Operacoes.GetAutomataFile(primaryStage);

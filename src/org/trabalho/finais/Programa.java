@@ -1,7 +1,5 @@
 package org.trabalho.finais;
 
-import javafx.scene.control.TextArea;
-
 public class Programa { //Descreve a função programa aplicada a um estado qi e um simbolo si que computa ao estado qj.
     String estado;
     String simbolo;
@@ -49,7 +47,7 @@ public class Programa { //Descreve a função programa aplicada a um estado qi e
     public String mostraPrograma()
     {
         String ProgString;
-        return ProgString = "\n("+this.estado+","+this.simbolo+")"+"="+this.estadoDestino;
+        return "\n("+this.estado+","+this.simbolo+")"+"="+this.estadoDestino;
 
     }
 

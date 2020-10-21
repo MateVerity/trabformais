@@ -1,8 +1,6 @@
 package org.trabalho.finais;
 
 
-import javafx.scene.control.TextArea;
-
 import java.util.ArrayList;
 
 public class Automata {
@@ -88,14 +86,14 @@ public class Automata {
 
     public String mostraAutomato()  //Printa o autômato na tela
     {
-        String AFDText = null;
+        StringBuilder AFDText;
 
-        AFDText = "Nome: " + this.Nome +"\nLista de Estados: " +  this.Estados + "\nAlfabeto: " + this.Simbolo + "\nEstado Inicial: " + this.EstadoInicial
-                + "\nEstados Finais: " + this.EstadoFinal;
+        AFDText = new StringBuilder("Nome: " + this.Nome + "\nLista de Estados: " + this.Estados + "\nAlfabeto: " + this.Simbolo + "\nEstado Inicial: " + this.EstadoInicial
+                + "\nEstados Finais: " + this.EstadoFinal);
         for (org.trabalho.finais.Programa programa : this.Programa) {
-            AFDText = AFDText + programa.mostraPrograma();
+            AFDText.append(programa.mostraPrograma());
         }
-        return AFDText;
+        return AFDText.toString();
 
 
     }
