@@ -1,7 +1,7 @@
 # trabformais
  Trabalho final da disciplina Linguagens Formais e Autômatos, ministrada pelo professor Lúcio.  
  O trabalho consiste em :  
- Criar um programa que, dado um autômato finito determinístico (AFD) M que a reconhece uma linguagem regular L, definido em um arquivo texto, execute as seguintes  
+ Criar um programa que, dado um autômato finito determinístico (AFD) M que a reconhece uma linguagem regular L, definido em um arquivo texto, execute as seguintes
 operações:  
 (a) Construa a gramática regular (GR) G equivalente a M;  
 (b) Dada uma palavra w, indique se w pertence ou não a GERA(G), usando a GR  
