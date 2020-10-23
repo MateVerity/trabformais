@@ -13,7 +13,7 @@ import java.io.File;
 
 public class Main extends Application {
 
-
+    private static Stage pstage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{  //Código de inicialização padrão do programa
@@ -27,6 +27,7 @@ public class Main extends Application {
         primaryStage.getIcons().add(new Image("appicon.png"));
         Controller controller = loader.getController();
         primaryStage.show();
+        pstage = primaryStage;
         File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
         Operacoes.AutomataReader(AutomataFile);
         Gramatica.AFDtoGrammar(Automata.self());
@@ -41,6 +42,11 @@ public class Main extends Application {
 
 
 
+    }
+
+    public static Stage getPrimaryStage()
+    {
+        return pstage;
     }
 
 

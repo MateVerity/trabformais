@@ -8,15 +8,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.trabalho.finais.Controller">
    <children>
-      <TextArea fx:id="automata" editable="false" layoutX="20.0" layoutY="34.0" prefHeight="291.0" prefWidth="245.0" text="Por hora nada" />
+      <TextArea fx:id="automata" editable="false" layoutX="20.0" layoutY="34.0" prefHeight="291.0" prefWidth="245.0" />
       <TextArea fx:id="grammar" editable="false" layoutX="335.0" layoutY="34.0" prefHeight="291.0" prefWidth="245.0" />
       <Text layoutX="32.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autômato" />
       <Text layoutX="335.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gramática" />
-      <TextField fx:id="campotexto" layoutX="20.0" layoutY="367.0" />
-      <Button layoutX="173.0" layoutY="368.0" mnemonicParsing="false" onAction="#checkWord" text="Ok" />
-      <Text layoutX="22.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Testar palavra" />
-      <TextArea fx:id="campopalavra" layoutX="20.0" layoutY="407.0" prefHeight="183.0" prefWidth="245.0" />
-      <Button layoutX="335.0" layoutY="368.0" mnemonicParsing="false" onAction="#parseWordList" text="Testar Lista de Palavras" />
-      <TextArea layoutX="335.0" layoutY="408.0" prefHeight="183.0" prefWidth="245.0" />
+      <TextField fx:id="campotexto" layoutX="102.0" layoutY="432.0" />
+      <Button layoutX="247.0" layoutY="433.0" mnemonicParsing="false" onAction="#checkWord" text="Ok" />
+      <Text layoutX="22.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Testar palavra" />
+      <TextArea fx:id="campopalavra" layoutX="6.0" layoutY="465.0" prefHeight="102.0" prefWidth="586.0" wrapText="true" />
+      <Button layoutX="24.0" layoutY="339.0" mnemonicParsing="false" onAction="#parseWordList" text="Testar Lista de Palavras" />
+      <TextArea fx:id="campolista" layoutX="6.0" layoutY="366.0" prefHeight="48.0" prefWidth="586.0" wrapText="true" />
+      <Text layoutX="13.0" layoutY="591.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Criado por : Mateus Nunes Campos || Cartão : 00268613 || Trabalho de Linguagens formais e Autômatos" />
    </children>
 </AnchorPane>

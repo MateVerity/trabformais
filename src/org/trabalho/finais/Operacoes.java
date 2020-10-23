@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,11 +37,49 @@ public class Operacoes {
     }
 
 
-    public static Automata AutomataReader(File AutomataFile) throws IOException //Parser para o AFD do arquivo
+    public static String ParsedWordList(Stage mainStage) throws IOException {
+
+         class Conjunto{
+             ArrayList<String> ACEITA = new ArrayList<>();
+             ArrayList<String> REJEITA = new ArrayList<>();
+
+         }
+
+
+
+        Conjunto parsedGroup = new Conjunto();
+        FileChooser WordListFileChooser = new FileChooser();
+        File WordList = WordListFileChooser.showOpenDialog(mainStage);
+        BufferedReader WordListReader = new BufferedReader(new InputStreamReader(new FileInputStream(WordList), StandardCharsets.UTF_8));
+        String linha = WordListReader.readLine();
+        String[] Words = linha.split(",");
+        int i;
+        for(i=0;i<Words.length;i++)
+        {
+
+            if(CheckWord(Words[i], Gramatica.self(), Gramatica.self().S, "", true).equals("ACEITA"))
+            {
+                parsedGroup.ACEITA.add(Words[i]);
+            }
+            else
+            {
+                parsedGroup.REJEITA.add(Words[i]);
+            }
+
+        }
+
+        return "ACEITA = {" + parsedGroup.ACEITA.toString() +"}\nREJEITA = {" + parsedGroup.REJEITA.toString() + "}";
+
+
+
+    }
+
+
+
+    public static void AutomataReader(File AutomataFile) throws IOException //Parser para o AFD do arquivo, preenche o singleton com o automato no arquivo.
     {
 
         int i = 0;
-        Automata AFD = new Automata(null, null); //Cria autômato vazio
 
         BufferedReader automataReader = new BufferedReader(new InputStreamReader(new FileInputStream(AutomataFile), StandardCharsets.UTF_8));
         String linha;
@@ -87,15 +126,14 @@ public class Operacoes {
             Automata.self().Programa.add(tempProg); //Adiciona a linha do programa no automato principal
 
         }
-        return AFD; //Retorna o automato completo
     }
 
 
-    public static String CheckWord(String palavra, Gramatica gramatica, String Estado, String PalavraAtual, Boolean WordList) {
+    public static String CheckWord(String palavra, Gramatica gramatica, String Estado, String PalavraAtual, Boolean IsWordList) {
 
 
-        if(!WordList)
-        {StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
+
+        StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
 
 
 
@@ -121,12 +159,21 @@ public class Operacoes {
                     {
                         if(transicao.simbolo.equals((w.toString())))
                         {
-                            if(PalavraAtual.isEmpty()){
-                                derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("\n");}
-                            else{
+                            if(IsWordList)
+                            {
+                                return CheckWord(palavra.substring(1), gramatica, transicao.estado, PalavraAtual + w.toString(), true);
+                            }
 
-                            derivacoes.append(Estado).append("=>").append(PalavraAtual).append(w).append(" ").append(transicao.estado).append("\n");}
-                            return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado, PalavraAtual + w.toString(), false);
+
+                            else {
+                                if (PalavraAtual.isEmpty()) {
+                                    derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("");
+                                } else {
+
+                                    derivacoes.append("=>").append(PalavraAtual).append(w).append(" ").append(transicao.estado).append("");
+                                }
+                                return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado, PalavraAtual + w.toString(), false);
+                            }
                         }
 
                     }
@@ -144,24 +191,34 @@ public class Operacoes {
                     {
                         if(transicao.simbolo.equals("ε"))
                         {
-                            derivacoes.append(Estado).append("=>").append(PalavraAtual).append("\nPalavra w pertence à GERA(G).");
-                            return derivacoes.toString();
+                            if(IsWordList)
+                            {
+                                return "ACEITA";
+                            }
+                            else {
+                                derivacoes.append(Estado).append("=>").append(PalavraAtual).append("\nPalavra w pertence à GERA(G).");
+                                return derivacoes.toString();
+                            }
                         }
 
                     }
 
-            derivacoes.delete(0,derivacoes.length());
-            derivacoes.append("\nPalavra w não pertence à GERA(G).");
-            return derivacoes.toString();
-
+            if(IsWordList)
+            {
+                return "REJEITA";
+            }
+            else {
+                derivacoes.delete(0, derivacoes.length());
+                derivacoes.append("\nPalavra w não pertence à GERA(G).");
+                return derivacoes.toString();
+            }
         }
 
 
+        System.out.println("Nádegas");
         derivacoes.delete(0,derivacoes.length());
         derivacoes.append("\nPalavra w não pertence à GERA(G).");
         return derivacoes.toString();
-    }
-    return null;
 
 
     }

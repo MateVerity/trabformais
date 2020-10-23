@@ -28,6 +28,8 @@ public class Controller {
     @FXML
     private TextArea campopalavra;
 
+    @FXML
+    private TextArea campolista;
 
 
     public void initialize()
@@ -49,9 +51,8 @@ public class Controller {
 
     }
 
-    public void parseWordList()
-    {
-        System.out.println("PREULAE");
+    public void parseWordList() throws IOException {
+        campolista.setText(Operacoes.ParsedWordList(Main.getPrimaryStage()));
     }
 
 
