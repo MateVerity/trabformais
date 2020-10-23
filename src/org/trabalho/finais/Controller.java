@@ -45,8 +45,13 @@ public class Controller {
     public void checkWord()
     {
 
-        campopalavra.setText(Operacoes.CheckWord(campotexto.getText(), Gramatica.self(), Gramatica.self().S)); //Retorna a palavra escrita pelo usuário
+        campopalavra.setText(Operacoes.CheckWord(campotexto.getText(), Gramatica.self(), Gramatica.self().S, "", false)); //Retorna a palavra escrita pelo usuário
 
+    }
+
+    public void parseWordList()
+    {
+        System.out.println("PREULAE");
     }
 
 

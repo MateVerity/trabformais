@@ -91,9 +91,11 @@ public class Operacoes {
     }
 
 
-    public static String CheckWord(String palavra, Gramatica gramatica, String Estado) {
+    public static String CheckWord(String palavra, Gramatica gramatica, String Estado, String PalavraAtual, Boolean WordList) {
 
-        StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
+
+        if(!WordList)
+        {StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
 
 
 
@@ -119,8 +121,12 @@ public class Operacoes {
                     {
                         if(transicao.simbolo.equals((w.toString())))
                         {
-                            derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("\n");
-                            return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado);
+                            if(PalavraAtual.isEmpty()){
+                                derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("\n");}
+                            else{
+
+                            derivacoes.append(Estado).append("=>").append(PalavraAtual).append(w).append(" ").append(transicao.estado).append("\n");}
+                            return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado, PalavraAtual + w.toString(), false);
                         }
 
                     }
@@ -138,7 +144,7 @@ public class Operacoes {
                     {
                         if(transicao.simbolo.equals("ε"))
                         {
-                            derivacoes.append("\nPalavra w pertence à GERA(G).");
+                            derivacoes.append(Estado).append("=>").append(PalavraAtual).append("\nPalavra w pertence à GERA(G).");
                             return derivacoes.toString();
                         }
 
@@ -155,5 +161,11 @@ public class Operacoes {
         derivacoes.append("\nPalavra w não pertence à GERA(G).");
         return derivacoes.toString();
     }
+    return null;
+
+
+    }
+
+
 
 }
