@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+ Nessa classe se encontram os métodos responsáveis pelas operações do programa.
+ */
 
 public class Operacoes {
 
-    public static File GetAutomataFile(Stage mainStage) { //Retorna um ponteiro para o arquivo que contém o AFD
+    public static File GetAutomataFile(Stage mainStage) { //Retorna o "ponteiro" contendo o arquivo que contém o AFD
 
         FileChooser AutomataFileGetter = new FileChooser();
         Alert AutomataMsg = CreateAlert("Selecione o arquivo contendo o AFD.", "Selecione o arquivo", "Info");
@@ -23,7 +26,7 @@ public class Operacoes {
 
     }
 
-    public static Alert CreateAlert(String AlertMessage, String AlertTitle, String Tipo) //Cria um alerta para o usuário
+    public static Alert CreateAlert(String AlertMessage, String AlertTitle, String Tipo) //Cria um alerta
     {
         if (Tipo.equals("Info")) {
             Alert newAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -37,9 +40,9 @@ public class Operacoes {
     }
 
 
-    public static String ParsedWordList(Stage mainStage) throws IOException {
+    public static String ParsedWordList(Stage mainStage) throws IOException { //Lê a lista de palavras, Retorna o conjunto ACEITA e REJEITA
 
-         class Conjunto{
+         class Conjunto{ //Desnecessário, mas por que não?
              ArrayList<String> ACEITA = new ArrayList<>();
              ArrayList<String> REJEITA = new ArrayList<>();
 
@@ -53,22 +56,24 @@ public class Operacoes {
         BufferedReader WordListReader = new BufferedReader(new InputStreamReader(new FileInputStream(WordList), StandardCharsets.UTF_8));
         String linha = WordListReader.readLine();
         String[] Words = linha.split(",");
+        //Basicamente tirou as virgulas do arquivo e inseriu as palavras no array
         int i;
-        for(i=0;i<Words.length;i++)
+        for(i=0;i<Words.length;i++) //Para cada palavra
         {
+            Words[i] = Words[i].trim();
 
-            if(CheckWord(Words[i], Gramatica.self(), Gramatica.self().S, "", true).equals("ACEITA"))
+            if(CheckWord(Words[i], Gramatica.self(), Gramatica.self().S, "", true).equals("ACEITA")) //Se ela é aceita
             {
-                parsedGroup.ACEITA.add(Words[i]);
+                parsedGroup.ACEITA.add(Words[i]); //Adiciona na lista de aceita
             }
             else
             {
-                parsedGroup.REJEITA.add(Words[i]);
+                parsedGroup.REJEITA.add(Words[i]); //ou na lista de rejeita
             }
 
         }
 
-        return "ACEITA = {" + parsedGroup.ACEITA.toString() +"}\nREJEITA = {" + parsedGroup.REJEITA.toString() + "}";
+        return "ACEITA = {" + parsedGroup.ACEITA.toString() +"}\nREJEITA = {" + parsedGroup.REJEITA.toString() + "}"; //Retorna os conjuntos
 
 
 
@@ -123,33 +128,37 @@ public class Operacoes {
             tempProg.simbolo = Alocador[1];
             Splitter = linha.split("\\)=");
             tempProg.estadoDestino = Splitter[1];
-            Automata.self().Programa.add(tempProg); //Adiciona a linha do programa no automato principal
+            Automata.self().Programa.add(tempProg); //Adiciona a linha do programa no singleton
 
         }
     }
 
 
+    /*Método mais importante:
+    Se IsWordList = true, significa que estamos acessando o método à partir da lista de palavras. Se for falso, estamos testando apenas uma.
+    Isso é necessário pois se for apenas uma palavra, precisamos mostrar as derivações.
+    Essa função é definida recursivamente. A cada chamada, estamos entrando com <palavra> menos <primeira letra>.
+    Por exemplo : abaab -> chamada recursiva -> baab
+    Se entrarmos com uma palavra vazia, ou seja, a palavra já percorreu todos as transições, testamos se o estado atual é final. Se for, a palavra é aceita,
+    caso contrário, ela é rejeitada.
+    Se a palavra inicialmente entrada for vazia ou algum símbolo não pertença à gramática, ela é rejeitada na mesma hora.
+    Se a palavra não é vazia e não tem transições possíveis, ela é rejeitada. (Provavelmente o AFD entrado não era válido)
+    A cada recursão, devolvemos as derivações que ocorreram, no final temos uma grande string contendo tudo, e se a palavra é aceita ou não.
+
+     */
     public static String CheckWord(String palavra, Gramatica gramatica, String Estado, String PalavraAtual, Boolean IsWordList) {
-
-
 
         StringBuilder derivacoes = new StringBuilder(); //Conterá as derivações caso a palavra pertença
 
-
-
-
-
-        if(palavra.length()  != 0)
+        if(palavra.length()  != 0) //Se a palavra NÃO for vazia
         {
             Character w = palavra.charAt(0);
 
-            if(!gramatica.T.contains(w.toString()))
+            if(!gramatica.T.contains(w.toString())) //Se a palavra contém simbolo inválido
             {
                 derivacoes.append(w).append(" não pertence ao conjunto T de G");
                 return derivacoes.toString();
             }
-
-
 
             for(GProgram Deriv : gramatica.P)
             {
@@ -167,10 +176,10 @@ public class Operacoes {
 
                             else {
                                 if (PalavraAtual.isEmpty()) {
-                                    derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado).append("");
+                                    derivacoes.append(Estado).append("=>").append(w).append(" ").append(transicao.estado);
                                 } else {
 
-                                    derivacoes.append("=>").append(PalavraAtual).append(w).append(" ").append(transicao.estado).append("");
+                                    derivacoes.append("=>").append(PalavraAtual).append(w).append(" ").append(transicao.estado);
                                 }
                                 return derivacoes.toString() + CheckWord(palavra.substring(1), gramatica, transicao.estado, PalavraAtual + w.toString(), false);
                             }
@@ -215,7 +224,6 @@ public class Operacoes {
         }
 
 
-        System.out.println("Nádegas");
         derivacoes.delete(0,derivacoes.length());
         derivacoes.append("\nPalavra w não pertence à GERA(G).");
         return derivacoes.toString();

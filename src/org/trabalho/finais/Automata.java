@@ -15,6 +15,13 @@ public class Automata {
     public static Automata self(){return self;}
 
 
+
+    //Limpa o singleton
+    public static void limpa() {
+        self = new Automata(null, null);
+    }
+
+
     //Construtor
     public Automata(String nome, ArrayList<String> estados, ArrayList<String> simbolo, String estadoInicial, ArrayList<String> estadoFinal, ArrayList<org.trabalho.finais.Programa> programa) {
         Nome = nome;

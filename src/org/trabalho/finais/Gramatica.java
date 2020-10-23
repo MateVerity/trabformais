@@ -4,20 +4,34 @@ import java.util.ArrayList;
 
 public class Gramatica {
 
-    //Convertendo um AFD, definido como M = (Q,Σ,δ,q0,F), para uma gramática regular (G = (V,T,S,P)), faremos da seguinte forma:
-    // 1 - O símbolo inicial da gramática é q0, o estado inicial não-final do AFD.
-    // 2 - Para cada transição qi à qj em algum símbolo, criar a regra de produção qi -> (simbolo)qj
-    // 3 - Para cada estado final qk, formar a regra de produção qk -> λ
+    /*Convertendo um AFD, definido como M = (Q,Σ,δ,q0,F), para uma gramática regular (G = (V,T,S,P)), faremos da seguinte forma:
+     1 - O símbolo inicial da gramática é q0, o estado inicial não-final do AFD.
+     2 - Para cada transição qi à qj em algum símbolo, criar a regra de produção qi -> (simbolo)qj
+     3 - Para cada estado final qk, formar a regra de produção qk -> λ
+     */
 
     ArrayList<String> V; //Lista de Estados
     ArrayList<String> T; //Lista de Símbolos
     String S;           //Estado inicial não-terminal
     ArrayList<GProgram> P;  //Conjunto de Produções
-          //Se é final ou não
 
+    /*
+    Representaremos V e T como uma lista de Strings. Já as Produções faremos da seguinte forma: Será uma lista de GPrograms, definimos um GProgram
+    como <Estado de Partida> -> <Transição1> <Transição2> <Transição n>, onde uma Transição é composta por <Simbolo> <Estado>, por exemplo :
+    Gprogram[1] = q0 -> a q1 | b q2 | c q3
+    Gprogram[2] = q1 -> a q2 | b q3 | c q3
+    Gprogram[n] = qn -> a qn ...
+     */
+
+
+    //Aqui criamos o singleton
     private static Gramatica self = new Gramatica();
     public static Gramatica self(){return self;}
+    public static void limpa(){
+        self = new Gramatica();
+    }
 
+    //Construtores
     public Gramatica(ArrayList<String> v, ArrayList<String> t, String s, ArrayList<GProgram> p) {
         V = v;
         T = t;
@@ -34,42 +48,46 @@ public class Gramatica {
     }
 
 
-    public static Gramatica AFDtoGrammar(Automata AFD)  //Converte o AFD em Gramática Regular
+
+
+    public static void AFDtoGrammar(Automata AFD)  //Converte o AFD em Gramática Regular. Como estamos trabalhando com um singleton, a função pode ser void.
     {
-        Gramatica tempGrammar = new Gramatica();
-        ArrayList<GProgram> Producoes = new ArrayList<>();
+
+        ArrayList<GProgram> Producoes = new ArrayList<>(); //Inicializa uma lista de produções
 
 
+        //Estes atributos da gramática são basicamente apenas copiar do autômato
         Gramatica.self().S = AFD.getEstadoInicial();
         Gramatica.self().V = AFD.getEstados();
         Gramatica.self().T = AFD.getSimbolo();
 
+
         for(String Estado : Gramatica.self().V) //Para cada estado da gramática
         {
-            GProgram tempGProgram = new GProgram();
+            GProgram tempGProgram = new GProgram(); //Cria um GProgram temporário
 
-            tempGProgram.estadoPartida = Estado;
+            tempGProgram.estadoPartida = Estado;    //onde o estado de partida dessa produção será o estado atual do loop
 
 
-            for(Programa P : AFD.Programa) //Cria uma regra de produção
+            for(Programa P : AFD.Programa) //Para cada aplicação P da função Programa do autômato
             {
-                if(P.estado.equals(Estado))
-                {
-                    Transicoes tempTransicao = new Transicoes();
+                if(P.estado.equals(Estado)) //Se o estado x de (x,simbolo)=estadoDestino for igual ao estado atual da gramática. Basicamente cria
+                {                          // todas as transições da aplicação P do programa de um certo estado. Por ex, todas as transições que partem de q0.
+                    Transicoes tempTransicao = new Transicoes();    //Monta a regra de transição
                     tempTransicao.estado = P.estadoDestino;
                     tempTransicao.simbolo = P.simbolo;
-                    tempGProgram.transicoesDestino.add(tempTransicao);
+                    tempGProgram.transicoesDestino.add(tempTransicao); //Adiciona a transição na lista de Gprogram do estado atual
 
                 }
 
 
             }
 
-            Gramatica.self().P.add(tempGProgram);
+            Gramatica.self().P.add(tempGProgram); //Adiciona a regra de produção na gramática
 
         }
 
-        for(String Estado : Gramatica.self().V)  //Cria uma regra de produção terminal para cada estado terminal do AFD
+        for(String Estado : Gramatica.self().V)  //Adiciona as regras de produções terminais na gramática
         {
             GProgram tempGProgram = new GProgram();
             tempGProgram.estadoPartida = Estado;
@@ -86,12 +104,6 @@ public class Gramatica {
 
 
         }
-
-
-
-
-
-        return Gramatica.self();
     }
 
 
@@ -114,6 +126,7 @@ public class Gramatica {
 
     }
 
+    //Getters e Setters
     public ArrayList<String> getV() {
         return V;
     }

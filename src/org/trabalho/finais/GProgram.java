@@ -3,7 +3,7 @@ package org.trabalho.finais;
 import java.util.ArrayList;
 
 public class GProgram {
-    //Programa da gramática
+
 
     String estadoPartida;
     ArrayList<Transicoes> transicoesDestino;

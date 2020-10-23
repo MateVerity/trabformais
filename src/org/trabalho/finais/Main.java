@@ -7,9 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.File;
-
-
 
 public class Main extends Application {
 
@@ -18,6 +15,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{  //Código de inicialização padrão do programa
 
+
+        /*Basicamente, assim que o programa é inicializado, ele vai pedir o arquivo contendo o AFD. Esse arquivo passa pelo parser e é
+        inserido no objeto Automata (definido na classe Automata). Utilizaremos um Singleton (que é basicamente uma variável global) tanto para
+        o autômato quanto para a gramática. Assim que o autômato é lido, a gramática é criada. Assim que essas operações ocorrem, o programa aguarda
+        o input do usuário, seja para testar alguma palavra ou alimentar o programa com uma lista de palavras.
+         */
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
@@ -28,18 +31,9 @@ public class Main extends Application {
         Controller controller = loader.getController();
         primaryStage.show();
         pstage = primaryStage;
-        File AutomataFile = Operacoes.GetAutomataFile(primaryStage); //Variável que recebe o arquivo contendo o AFD
-        Operacoes.AutomataReader(AutomataFile);
-        Gramatica.AFDtoGrammar(Automata.self());
-        controller.populateTextAreas(Automata.self(), Gramatica.self());
 
 
-
-
-        //Inicio das operações
-
-
-
+        /*As operações que necessitam do input do usuário estão na classe Controller*/
 
 
     }
