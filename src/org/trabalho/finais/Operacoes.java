@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.naming.directory.InitialDirContext;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Operacoes {
         Alert AutomataMsg = CreateAlert("Selecione o arquivo contendo o AFD.", "Selecione o arquivo", "Info");
         assert AutomataMsg != null;
         AutomataMsg.showAndWait();
+
+        AutomataFileGetter.setInitialDirectory(new File(System.getProperty("user.dir")));
         return AutomataFileGetter.showOpenDialog(mainStage);
 
     }
@@ -52,6 +55,7 @@ public class Operacoes {
 
         Conjunto parsedGroup = new Conjunto();
         FileChooser WordListFileChooser = new FileChooser();
+        WordListFileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         File WordList = WordListFileChooser.showOpenDialog(mainStage);
         BufferedReader WordListReader = new BufferedReader(new InputStreamReader(new FileInputStream(WordList), StandardCharsets.UTF_8));
         String linha = WordListReader.readLine();
@@ -156,7 +160,7 @@ public class Operacoes {
 
             if(!gramatica.T.contains(w.toString())) //Se a palavra contém simbolo inválido
             {
-                derivacoes.append(w).append(" não pertence ao conjunto T de G");
+                derivacoes.append("\nO símbolo ").append(w).append(" não pertence ao conjunto T de G");
                 return derivacoes.toString();
             }
 
@@ -205,7 +209,7 @@ public class Operacoes {
                                 return "ACEITA";
                             }
                             else {
-                                derivacoes.append(Estado).append("=>").append(PalavraAtual).append("\nPalavra w pertence à GERA(G).");
+                                derivacoes.append("=>").append(PalavraAtual).append("\nPalavra w pertence à GERA(G).");
                                 return derivacoes.toString();
                             }
                         }

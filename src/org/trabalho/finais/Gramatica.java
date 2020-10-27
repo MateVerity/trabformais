@@ -73,6 +73,7 @@ public class Gramatica {
             {
                 if(P.estado.equals(Estado)) //Se o estado x de (x,simbolo)=estadoDestino for igual ao estado atual da gramática. Basicamente cria
                 {                          // todas as transições da aplicação P do programa de um certo estado. Por ex, todas as transições que partem de q0.
+
                     Transicoes tempTransicao = new Transicoes();    //Monta a regra de transição
                     tempTransicao.estado = P.estadoDestino;
                     tempTransicao.simbolo = P.simbolo;
@@ -113,8 +114,11 @@ public class Gramatica {
 
         grammarString = new StringBuilder("V :" + this.V + "\nT :" + this.T + "\nS :" + this.S);
         for (GProgram temp : P) {
+            if(temp.transicoesDestino.isEmpty())
+                continue;
             grammarString.append("\n").append(temp.estadoPartida).append("->");
             for (Transicoes tttemp : temp.transicoesDestino) {
+
                 if (tttemp.simbolo.equals("ε"))
                     grammarString.append(tttemp.simbolo);
                 else
